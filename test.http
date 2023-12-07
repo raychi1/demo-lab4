@@ -1,0 +1,2 @@
+### GET all ships
+GET http://localhost:8080/ships
