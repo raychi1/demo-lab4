@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ships")
+@RequestMapping("/ship")
 public class ShipController {
 
     private final ShipService shipService;
@@ -20,55 +20,33 @@ public class ShipController {
         this.shipService = shipService;
     }
 
-    @GetMapping
+    @PostMapping("/create")
+    public ResponseEntity<String> createShip(@RequestBody Ship ship) {
+        shipService.createShip(ship);
+        return ResponseEntity.ok("Ship created successfully");
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<String> updateShip(@RequestBody Ship ship) {
+        shipService.updateShip(ship);
+        return ResponseEntity.ok("Ship updated successfully");
+    }
+
+    @DeleteMapping("/delete/{shipId}")
+    public ResponseEntity<String> deleteShip(@PathVariable Long shipId) {
+        shipService.deleteShip(shipId);
+        return ResponseEntity.ok("Ship deleted successfully");
+    }
+
+    @GetMapping("/get/{shipId}")
+    public ResponseEntity<Ship> getShipById(@PathVariable Long shipId) {
+        Ship ship = shipService.getShipById(shipId);
+        return ResponseEntity.ok(ship);
+    }
+
+    @GetMapping("/getAll")
     public ResponseEntity<List<Ship>> getAllShips() {
         List<Ship> ships = shipService.getAllShips();
-        return new ResponseEntity<>(ships, HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Ship> getShipById(@PathVariable Long id) {
-        Ship ship = shipService.getShipById(id);
-        if (ship != null) {
-            return new ResponseEntity<>(ship, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping
-    public ResponseEntity<Void> createShip(@RequestBody Ship ship) {
-        shipService.createShip(ship);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateShip(@PathVariable Long id, @RequestBody Ship updatedShip) {
-        shipService.updateShip(id, updatedShip);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteShip(@PathVariable Long id) {
-        shipService.deleteShip(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @GetMapping("/byName/{name}")
-    public ResponseEntity<List<Ship>> getShipsByName(@PathVariable String name) {
-        List<Ship> ships = shipService.getShipsByName(name);
-        return new ResponseEntity<>(ships, HttpStatus.OK);
-    }
-
-    @GetMapping("/byCapacity/{capacity}")
-    public ResponseEntity<List<Ship>> getShipsByCapacity(@PathVariable int capacity) {
-        List<Ship> ships = shipService.getShipsByCapacity(capacity);
-        return new ResponseEntity<>(ships, HttpStatus.OK);
-    }
-
-    @GetMapping("/byContainerName/{containerName}")
-    public ResponseEntity<List<Ship>> getShipsByContainerName(@PathVariable String containerName) {
-        List<Ship> ships = shipService.getShipsByContainerName(containerName);
-        return new ResponseEntity<>(ships, HttpStatus.OK);
+        return ResponseEntity.ok(ships);
     }
 }

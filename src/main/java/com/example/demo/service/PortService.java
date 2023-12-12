@@ -4,6 +4,7 @@ import com.example.demo.model.Port;
 import com.example.demo.repository.PortRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,46 +18,26 @@ public class PortService {
         this.portRepository = portRepository;
     }
 
-    public List<Port> getAllPorts() {
-        return portRepository.findAll();
-    }
-
-    public Port getPortById(Long id) {
-        return portRepository.findById(id).orElse(null);
-    }
-
+    @Transactional
     public void createPort(Port port) {
         portRepository.save(port);
     }
 
-    public void updatePort(Long id, Port updatedPort) {
-        Port existingPort = portRepository.findById(id).orElse(null);
-        if (existingPort != null) {
-            // Update properties of the existing port
-            // Example: existingPort.setName(updatedPort.getName());
-            portRepository.save(existingPort);
-        }
+    @Transactional
+    public void updatePort(Port port) {
+        portRepository.save(port);
     }
 
-    public void deletePort(Long id) {
-        portRepository.deleteById(id);
+    @Transactional
+    public void deletePort(Long portId) {
+        portRepository.deleteById(portId);
     }
 
-    // Custom method to get ports by name
-    public List<Port> getPortsByName(String name) {
-        return portRepository.findByName(name);
+    public Port getPortById(Long portId) {
+        return portRepository.findById(portId).orElse(null);
     }
 
-    // Custom method to get ports by location
-    public List<Port> getPortsByLocation(String location) {
-        return portRepository.findByLocation(location);
+    public List<Port> getAllPorts() {
+        return portRepository.findAll();
     }
-
-    // Custom method to get ports by the name of the associated container
-    public List<Port> getPortsByContainerName(String containerName) {
-        return portRepository.findByContainers_Name(containerName);
-    }
-
-    // Add more custom methods as needed
-
 }

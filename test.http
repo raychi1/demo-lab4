@@ -1,2 +1,34 @@
-### GET all ships
-GET http://localhost:8080/ships
+# curl -X POST
+#  http://localhost:8080/ship/create
+#  -H 'Content-Type: application/json'
+#  -d '{
+#    "ID": 1,
+#    "fuel": 100.0,
+#    "currentPort": null,
+#    "totalWeightCapacity": 5000,
+#    "maxNumberOfAllContainers": 50,
+#    "maxNumberOfHeavyContainers": 20,
+#    "maxNumberOfRefrigeratedContainers": 10,
+#    "maxNumberOfLiquidContainers": 15,
+#    "fuelConsumptionPerKM": 0.05
+#}'
+POST http://localhost:8080/ship/create
+Content-Type: application/json
+
+{
+  "ID": 1,
+  "fuel": 100.0,
+  "currentPort": null,
+  "totalWeightCapacity": 5000,
+  "maxNumberOfAllContainers": 50,
+  "maxNumberOfHeavyContainers": 20,
+  "maxNumberOfRefrigeratedContainers": 10,
+  "maxNumberOfLiquidContainers": 15,
+  "fuelConsumptionPerKM": 0.05
+}
+
+###
+
+
+
+

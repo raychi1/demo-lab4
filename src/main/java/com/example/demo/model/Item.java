@@ -5,75 +5,87 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "items")
-public class Item {
-
+public abstract class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
-
-    private String type;
+    private int ID;
+    private double weight;
+    private int count;
 
     @ManyToOne
-    @JoinColumn(name = "container_id")
+    @JoinColumn(name = "container_id") // Specify the foreign key column name
     private Container container;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {  // Додайте метод геттера для "type"
-        return type;
-    }
-
-    public void setType(String type) {  // Додайте метод сеттера для "type"
-        this.type = type;
-    }
-
-    public Container getContainer() {
-        return container;
-    }
-
-    public void setContainer(Container container) {
+    public Item(int ID, double weight, int count, Container container) {
+        this.ID = ID;
+        this.weight = weight;
+        this.count = count;
         this.container = container;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return Objects.equals(id, item.id)
-                && Objects.equals(name, item.name)
-                && Objects.equals(container, item.container);
+    public Item() {
+
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, container);
+    public int getID() {
+        return ID;
     }
 
-    @Override
-    public String toString() {
-        return "Item{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", container=" + container +
-                '}';
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public abstract double getTotalWeight();
+
+    // Concrete Small class
+    public class Small extends Item {
+        public Small(int ID, double weight, int count, Container container) {
+            super(ID, weight, count, container);
+        }
+
+        @Override
+        public double getTotalWeight() {
+            return (weight * count) / 1.5;
+        }
+
+        // Add any other methods or attributes specific to Small...
+    }
+
+    // Concrete Heavy class
+    public class Heavy extends Item {
+        public Heavy(int ID, double weight, int count, Container container) {
+            super(ID, weight, count, container);
+        }
+
+        @Override
+        public double getTotalWeight() {
+            return (weight * count) * 1.5;
+        }
+
+    }
+
+    // Concrete Refrigerated class
+    public class Refrigerated extends Item {
+        public Refrigerated(int ID, double weight, int count, Container container) {
+            super(ID, weight, count, container);
+        }
+
+        @Override
+        public double getTotalWeight() {
+            return ((weight * count) * 2) - 3;
+        }
+
+    }
+
+    // Concrete Liquid class
+    public class Liquid extends Item {
+        public Liquid(int ID, double weight, int count, Container container) {
+            super(ID, weight, count, container);
+        }
+
+        @Override
+        public double getTotalWeight() {
+            return weight * count;
+        }
     }
 }
