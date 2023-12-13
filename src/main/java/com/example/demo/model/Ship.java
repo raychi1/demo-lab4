@@ -14,7 +14,7 @@ public class Ship implements IShip{
     private int ID;
     private double fuel;
     @ManyToOne
-    @JoinColumn(name = "current_port_id") // Specify the foreign key column name
+    @JoinColumn(name = "current_port_id")
     private Port currentPort;
 
     private int totalWeightCapacity;
@@ -54,19 +54,16 @@ public class Ship implements IShip{
             return false;
         }
 
-        // Calculate distance between current and destination ports
         double distance = currentPort.getDistance(destinationPort);
 
-        // Calculate fuel consumption based on distance and fuel consumption per kilometer
         double requiredFuel = distance * fuelConsumptionPerKM;
 
-        // Check if the ship has enough fuel
         if (fuel >= requiredFuel) {
-            // Update fuel and current port
+
             fuel -= requiredFuel;
-            currentPort.outgoingShip(this); // Ship leaves the current port
-            currentPort = destinationPort;   // Ship arrives at the destination port
-            destinationPort.incomingShip(this); // Ship added to the destination port
+            currentPort.outgoingShip(this);
+            currentPort = destinationPort;
+            destinationPort.incomingShip(this);
 
             System.out.println("Ship successfully sailed to port " + destinationPort.getID());
             return true;
@@ -81,31 +78,26 @@ public class Ship implements IShip{
     }
     @Override
     public boolean load(Container cont) {
-        // Check if the ship has reached the maximum capacity for all containers
         if (containers.size() >= maxNumberOfAllContainers) {
             System.out.println("Ship has reached maximum capacity for all containers.");
             return false;
         }
 
-        // Check if the container is a HeavyContainer and the ship has reached the maximum capacity for HeavyContainers
         if (cont instanceof Container.HeavyContainer && containers.stream().filter(c -> c instanceof Container.HeavyContainer).count() >= maxNumberOfHeavyContainers) {
             System.out.println("Ship has reached maximum capacity for HeavyContainers.");
             return false;
         }
 
-        // Check if the container is a RefrigeratedContainer and the ship has reached the maximum capacity for RefrigeratedContainers
         if (cont instanceof Container.RefrigeratedContainer && containers.stream().filter(c -> c instanceof Container.RefrigeratedContainer).count() >= maxNumberOfRefrigeratedContainers) {
             System.out.println("Ship has reached maximum capacity for RefrigeratedContainers.");
             return false;
         }
 
-        // Check if the container is a LiquidContainer and the ship has reached the maximum capacity for LiquidContainers
         if (cont instanceof Container.LiquidContainer && containers.stream().filter(c -> c instanceof Container.LiquidContainer).count() >= maxNumberOfLiquidContainers) {
             System.out.println("Ship has reached maximum capacity for LiquidContainers.");
             return false;
         }
 
-        // Add the container to the ship
         containers.add(cont);
         System.out.println("Container " + cont.getID() + " successfully loaded onto the ship.");
         return true;
@@ -123,12 +115,10 @@ public class Ship implements IShip{
     }
 
     public List<Container> getCurrentContainers() {
-        // Sorting containers by ID
         containers.sort(Comparator.comparingInt(Container::getID));
         return containers;
     }
 
-    // Getter and setter methods for private fields
 
     public int getID() {
         return ID;
@@ -212,7 +202,6 @@ public class Ship implements IShip{
 
     ///////////////////////////////////
     public static class LightWeightShip extends Ship {
-        // Additional properties or methods specific to LightWeightShip can be added here
 
         public LightWeightShip(int ID, double fuel, Port currentPort, int totalWeightCapacity,
                                int maxNumberOfAllContainers, int maxNumberOfHeavyContainers,
@@ -226,7 +215,6 @@ public class Ship implements IShip{
     }
 
     public static class MediumShip extends Ship {
-        // Additional properties or methods specific to MediumShip can be added here
 
         public MediumShip(int ID, double fuel, Port currentPort, int totalWeightCapacity,
                           int maxNumberOfAllContainers, int maxNumberOfHeavyContainers,
@@ -240,7 +228,6 @@ public class Ship implements IShip{
     }
 
     public static class HeavyShip extends Ship {
-        // Additional properties or methods specific to HeavyShip can be added here
 
         public HeavyShip(int ID, double fuel, Port currentPort, int totalWeightCapacity,
                          int maxNumberOfAllContainers, int maxNumberOfHeavyContainers,
@@ -313,7 +300,6 @@ public class Ship implements IShip{
         }
     }
 
-    // Concrete factory for creating LightWeightShip instances
     public class LightWeightShipFactory implements ShipFactory {
         @Override
         public Ship createShip() {
@@ -328,7 +314,6 @@ public class Ship implements IShip{
         }
     }
 
-    // Concrete factory for creating MediumShip instances
     public class MediumShipFactory implements ShipFactory {
         @Override
         public Ship createShip() {
@@ -343,7 +328,6 @@ public class Ship implements IShip{
         }
     }
 
-    // Concrete factory for creating HeavyShip instances
     public class HeavyShipFactory implements ShipFactory {
         @Override
         public Ship createShip() {

@@ -13,7 +13,7 @@ public abstract class Item {
     private int count;
 
     @ManyToOne
-    @JoinColumn(name = "container_id") // Specify the foreign key column name
+    @JoinColumn(name = "container_id")
     private Container container;
 
     public Item(int ID, double weight, int count, Container container) {
@@ -37,7 +37,6 @@ public abstract class Item {
 
     public abstract double getTotalWeight();
 
-    // Concrete Small class
     public class Small extends Item {
         public Small(int ID, double weight, int count, Container container) {
             super(ID, weight, count, container);
@@ -48,10 +47,8 @@ public abstract class Item {
             return (weight * count) / 1.5;
         }
 
-        // Add any other methods or attributes specific to Small...
     }
 
-    // Concrete Heavy class
     public class Heavy extends Item {
         public Heavy(int ID, double weight, int count, Container container) {
             super(ID, weight, count, container);
@@ -64,7 +61,6 @@ public abstract class Item {
 
     }
 
-    // Concrete Refrigerated class
     public class Refrigerated extends Item {
         public Refrigerated(int ID, double weight, int count, Container container) {
             super(ID, weight, count, container);
@@ -77,7 +73,6 @@ public abstract class Item {
 
     }
 
-    // Concrete Liquid class
     public class Liquid extends Item {
         public Liquid(int ID, double weight, int count, Container container) {
             super(ID, weight, count, container);

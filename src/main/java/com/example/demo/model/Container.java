@@ -18,7 +18,7 @@ public abstract class Container {
     private Port port;
 
     @ManyToOne
-    @JoinColumn(name = "ship_id") // Adjust the column name if needed
+    @JoinColumn(name = "ship_id")
     private Ship ship;
 
     public Container(int ID, int weight) {
@@ -30,7 +30,6 @@ public abstract class Container {
 
     }
 
-    // Abstract method to be implemented by subclasses
     public abstract double consumption();
 
     @Override
@@ -89,7 +88,6 @@ public abstract class Container {
 
         @Override
         public double consumption() {
-            // Fuel consumption for HeavyContainer: 3.00 per unit of weight
             return 3.00 * getWeight();
         }
     }
@@ -108,7 +106,6 @@ public abstract class Container {
 
         @Override
         public double consumption() {
-            // Fuel consumption for RefrigeratedContainer: 5.00 per unit of weight
             return 5.00 * getWeight();
         }
     }
@@ -127,7 +124,6 @@ public abstract class Container {
 
         @Override
         public double consumption() {
-            // Fuel consumption for LiquidContainer: 4.00 per unit of weight
             return 4.00 * getWeight();
         }
 

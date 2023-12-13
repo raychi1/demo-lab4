@@ -18,7 +18,6 @@ public class Action {
     private int destinationPortID;
     private double newFuel;
 
-    // Constructors, getters, and setters
 
     public String getType() {
         return type;

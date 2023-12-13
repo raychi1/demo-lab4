@@ -52,16 +52,13 @@ public class Port implements IPort {
         double lat2 = Math.toRadians(destinationPort.getLatitude());
         double lon2 = Math.toRadians(destinationPort.getLongitude());
 
-        // Haversine formula to calculate distance between two points on the earth
         double dlon = lon2 - lon1;
         double dlat = lat2 - lat1;
         double a = Math.pow(Math.sin(dlat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon / 2), 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        // Radius of the Earth in kilometers
         double radius = 6371;
 
-        // Calculate the distance
         return radius * c;
     }
 
