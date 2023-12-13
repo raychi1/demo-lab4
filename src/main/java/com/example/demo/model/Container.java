@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "container_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Container {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +33,17 @@ public abstract class Container {
     // Abstract method to be implemented by subclasses
     public abstract double consumption();
 
-    public boolean equals(Container other) {
-        // Check if the type, ID, and weight are the same
-        return getClass().equals(other.getClass()) && ID == other.getID() && weight == other.getWeight();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Container container = (Container) o;
+        return ID == container.ID && weight == container.weight && Objects.equals(port, container.port) && Objects.equals(ship, container.ship);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID, weight, port, ship);
     }
 
     // Getter methods for private fields
@@ -65,10 +75,16 @@ public abstract class Container {
         }
     }
 
+    @Entity
+    @Table(name = "heavy_container")
     // HeavyContainer class
     public static class HeavyContainer extends Container {
         public HeavyContainer(int ID, int weight) {
             super(ID, weight);
+        }
+
+        public HeavyContainer() {
+
         }
 
         @Override
@@ -79,9 +95,15 @@ public abstract class Container {
     }
 
     // RefrigeratedContainer class
+    @Entity
+    @Table(name = "refrigerated_container")
     public static class RefrigeratedContainer extends HeavyContainer {
         public RefrigeratedContainer(int ID, int weight) {
             super(ID, weight);
+        }
+
+        public RefrigeratedContainer() {
+
         }
 
         @Override
@@ -92,9 +114,15 @@ public abstract class Container {
     }
 
     // LiquidContainer class
+    @Entity
+    @Table(name = "liquid_container")
     public static class LiquidContainer extends HeavyContainer {
         public LiquidContainer(int ID, int weight) {
             super(ID, weight);
+        }
+
+        public LiquidContainer() {
+
         }
 
         @Override

@@ -1,0 +1,64 @@
+[
+  {
+    "type": "port",
+    "portID": 1,
+    "lat": 40.7128,
+    "lon": -74.0060
+  },
+  {
+    "type": "ship",
+    "shipID": 1,
+    "portID": 1,
+    "totalWeightCapacity": 5000,
+    "maxNumberOfAllContainers": 10,
+    "maxNumberOfHeavyContainers": 3,
+    "maxNumberOfRefrigeratedContainers": 2,
+    "maxNumberOfLiquidContainers": 1,
+    "fuelConsumptionPerKM": 0.2
+  },
+  {
+    "type": "container",
+    "containerID": 1,
+    "portID": 1,
+    "weight": 2000,
+    "containerType": "B"
+  },
+  {
+    "type": "container",
+    "containerID": 2,
+    "portID": 1,
+    "weight": 3500,
+    "containerType": "R"
+  },
+  {
+    "type": "load",
+    "shipID": 1,
+    "containerID": 1
+  },
+  {
+    "type": "load",
+    "shipID": 1,
+    "containerID": 2
+  },
+  {
+    "type": "sail",
+    "shipID": 1,
+    "destinationPortID": 2
+  },
+  {
+    "type": "port",
+    "portID": 2,
+    "lat": 34.0522,
+    "lon": -118.2437
+  },
+  {
+    "type": "unload",
+    "shipID": 1,
+    "containerID": 1
+  },
+  {
+    "type": "refuel",
+    "shipID": 1,
+    "newFuel": 50.0
+  }
+]

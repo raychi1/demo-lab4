@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Container;
 import com.example.demo.model.Ship;
 import com.example.demo.service.ShipService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,40 @@ public class ShipController {
     public ResponseEntity<List<Ship>> getAllShips() {
         List<Ship> ships = shipService.getAllShips();
         return ResponseEntity.ok(ships);
+    }
+    @PostMapping("/sailTo/{shipId}/{destinationPortId}")
+    public ResponseEntity<String> sailTo(@PathVariable Long shipId, @PathVariable Long destinationPortId) {
+        boolean success = shipService.sailTo(shipId, destinationPortId);
+        if (success) {
+            return ResponseEntity.ok("Ship sailed successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to sail the ship");
+        }
+    }
+
+    @PostMapping("/reFuel/{shipId}/{newFuel}")
+    public ResponseEntity<String> reFuel(@PathVariable Long shipId, @PathVariable double newFuel) {
+        shipService.reFuel(shipId, newFuel);
+        return ResponseEntity.ok("Ship refueled successfully");
+    }
+
+    @PostMapping("/load/{shipId}")
+    public ResponseEntity<String> load(@PathVariable Long shipId, @RequestBody Container container) {
+        boolean success = shipService.load(shipId, container);
+        if (success) {
+            return ResponseEntity.ok("Container loaded successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to load the container");
+        }
+    }
+
+    @PostMapping("/unLoad/{shipId}")
+    public ResponseEntity<String> unLoad(@PathVariable Long shipId, @RequestBody Container container) {
+        boolean success = shipService.unLoad(shipId, container);
+        if (success) {
+            return ResponseEntity.ok("Container unloaded successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to unload the container");
+        }
     }
 }
