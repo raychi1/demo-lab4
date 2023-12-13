@@ -36,7 +36,7 @@ public class MvcApplication {
 //            for (Action action : actions) {
 //                switch (action.getType()) {
 //                    case "port":
-//                        createPort(ports, action);
+//                        createPort.http(ports, action);
 //                        break;
 //                    case "ship":
 //                        createShip(ports, ships, action);
@@ -67,7 +67,7 @@ public class MvcApplication {
 //        }
 //    }
 //
-//    private static void createPort(Map<Integer, Port> ports, Action action) {
+//    private static void createPort.http(Map<Integer, Port> ports, Action action) {
 //        int portID = action.getPortID();
 //        double lat = action.getLat();
 //        double lon = action.getLon();
